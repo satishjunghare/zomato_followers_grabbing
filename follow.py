@@ -7,19 +7,27 @@ import datetime
 import random
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.firefox.options import Options as FirefoxOptions
+# from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 def remove_profile_link(profile_link):
-    with open("to_be_follow.txt", "r") as f:
+    with open("nayan_kadam_81254243.txt", "r") as f:
         lines = f.readlines()
-    with open("to_be_follow.txt", "w") as f:
+    with open("nayan_kadam_81254243.txt", "w") as f:
         for line in lines:
             if line.strip("\n") != profile_link:
                 f.write(line)
 
+# options = FirefoxOptions()
+# options.add_argument("--headless")
+# geckoPath = '/home/satish/Documents/practice/zomato_mining/geckodriver.exe'
+# # binary = FirefoxBinary(executable_path=r'/home/satish/Documents/practice/zomato_mining/geckodriver')
+# driver = webdriver.Firefox(executable_path=r'/home/satish/Documents/practice/zomato_mining/geckodriver')
+
 driver = webdriver.Chrome('./chromedriver')
 
 # Fetch last processed page number
-to_be_follow_file_path = "to_be_follow_shrutu.txt"
+to_be_follow_file_path = "nayan_kadam_81254243.txt"
 
 if path.exists(to_be_follow_file_path):
     read_file = open(to_be_follow_file_path, "r")
@@ -35,9 +43,15 @@ for profile in file_content:
         continue
     
     print('Start Processing Page : %s' % (profile_link))
-
-    driver.get(profile_link)
-    follow_btn = driver.find_element_by_xpath('//*[@id="root"]/div/main/div/div[1]/div/div[2]/button')
+    
+    try:
+        driver.get(profile_link)
+        follow_btn = driver.find_element_by_xpath('//*[@id="root"]/div/main/div/div[1]/div/div[2]/button')
+    except:
+        # Remove profile from to be follow
+        print('Found exception and removed profile link from list.')
+        remove_profile_link(profile_link)
+        continue
     
     if follow_btn.text == 'Follow':
         follow_btn.click()

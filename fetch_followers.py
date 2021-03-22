@@ -12,7 +12,7 @@ import random
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-user_id = 1877530
+user_id = 81254243
 
 driver = webdriver.Chrome('./chromedriver')
 driver.get('https://www.zomato.com/webroutes/user/network?page=1&userId=%d&type=followers' % (user_id))
@@ -37,18 +37,20 @@ for page in range(start_page, (total_pages+1)):
     data = driver.find_element_by_xpath("/html/body/pre").text
     json_data = json.loads(data)
     followers = json_data['entities']['USER']
-    
+    print(followers)
+    sys.exit
+
     for value in followers.keys():
         print(followers[value]['profile_url'])
         
         # Save user profile url in file
-        followed_users_records_file = open('to_be_follow_raw.txt', 'a')
+        followed_users_records_file = open('nayan_kadam_81254243.txt', 'a')
         followed_users_records_file.write('\n%s' % (followers[value]['profile_url']))
         followed_users_records_file.close()
 
-        time_sleep = random.randint(2, 5)
-        print("Wait for %d secs..." % (time_sleep))
-        time.sleep(time_sleep)
+        time_sleep = random.randint(2, 4)
+        # print("Wait for %d secs..." % (time_sleep))
+        # time.sleep(time_sleep)
 
     # Save page number
     file1 = open('to_be_follow_page_processed.txt', "w")  # write mode 
