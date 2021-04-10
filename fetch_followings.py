@@ -15,10 +15,10 @@ from selenium.webdriver.common.keys import Keys
 user_id = 179880094
 
 driver = webdriver.Chrome('./chromedriver')
-driver.get('https://www.zomato.com/webroutes/user/network?page=1&userId=%d&type=followers' % (user_id))
+driver.get('https://www.zomato.com/webroutes/user/network?page=1&userId=%d&type=following' % (user_id))
 data = driver.find_element_by_xpath("/html/body/pre").text
 json_data = json.loads(data)
-total_pages = json_data['sections']['SECTION_USER_FOLLOWER']['followers']['totalPages']
+total_pages = json_data['sections']['SECTION_USER_FOLLOWER']['following']['totalPages']
 
 # Fetch last processed page number
 user_pages_processed_file_path = "to_be_follow_page_processed.txt"
@@ -33,7 +33,7 @@ if path.exists(user_pages_processed_file_path):
 logged = False
 for page in range(start_page, (total_pages+1)):
     print('Start Processing Page : %d' % (page))
-    driver.get('https://www.zomato.com/webroutes/user/network?page=%d&userId=%d&type=followers' % (page, user_id))
+    driver.get('https://www.zomato.com/webroutes/user/network?page=%d&userId=%d&type=following' % (page, user_id))
     data = driver.find_element_by_xpath("/html/body/pre").text
     json_data = json.loads(data)
     followers = json_data['entities']['USER']
@@ -44,7 +44,7 @@ for page in range(start_page, (total_pages+1)):
         print(followers[value]['profile_url'])
         
         # Save user profile url in file
-        followed_users_records_file = open('shrutu_followers_179880094.txt', 'a')
+        followed_users_records_file = open('shrutu_following_179880094.txt', 'a')
         followed_users_records_file.write('\n%s' % (followers[value]['profile_url']))
         followed_users_records_file.close()
 
