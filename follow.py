@@ -60,7 +60,7 @@ for profile in file_content:
             time.sleep(60)
             logged = True
         else:
-            time_sleep = random.randint(10, 20)
+            time_sleep = random.randint(4, 6)
             time.sleep(time_sleep)
         
         # Remove profile from to be follow
